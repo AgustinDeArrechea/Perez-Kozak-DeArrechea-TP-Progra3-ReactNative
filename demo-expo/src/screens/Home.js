@@ -1,14 +1,14 @@
 import { Text, View } from 'react-native'
 import React, { Component } from 'react'
 
-class TabNavigator extends Component {
+ class Home extends Component {
   render() {
     return (
       <View>
-        <Text>TabNavigator</Text>
+        <Text>Home</Text>
       </View>
     )
   }
 }
 
-export default TabNavigator
+export default Home
