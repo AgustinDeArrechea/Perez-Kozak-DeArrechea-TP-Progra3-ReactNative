@@ -9,11 +9,10 @@ const Stack = createNativeStackNavigator()
 class StackNavigator extends Component {
   render() {
     return (
-      <StackNavigator>
-        <Stack.Screen name='Login' component={Login} options={{headerShown: false}}/> 
-        <Stack.Screen name='Register' component={Register} options={{headerShown: false}}/>
-
-      </StackNavigator>
+      <Stack.Navigator>
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+      <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+    </Stack.Navigator>
     )
   }
 }
