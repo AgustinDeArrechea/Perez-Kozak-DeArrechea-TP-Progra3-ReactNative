@@ -1,5 +1,6 @@
 import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
 import React, { Component } from "react";
+import { db,auth } from "../firebase/config";
 
 class Login extends Component {
 
@@ -22,12 +23,17 @@ class Login extends Component {
           this.setState({error:'La contraseña debe tener mas de 6 caracteres '}) 
           return
         }
+
+              auth.signInWithEmailAndPassword(email,password)
+          .then((user) => {this.props.navigation.navigate('Register')})
+          .catch((err)=> this.setState({error: err.message}, () => console.log("el error fue",err)) 
+           )
     }
 
 
   render() {
     return (
-      <View>
+      <View style={styles.mainContainer}>
         <Text style={styles.title}>Iniciar Sesion</Text>
 
         <View style={styles.container}>
@@ -82,9 +88,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: 'flex-start', // Cambiado de 'center' a 'flex-start'
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
+    marginTop: -20, // Añadido para reducir el espacio después del título
   },
   formContainer: {
     width: '100%',
@@ -119,8 +126,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 30, // Reducido de 20
     color: '#333',
+    textAlign: 'center',
+    width: '100%',
+    marginTop: 60 // Ajustado para dar espacio desde la parte superior
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#f5f5f5',
   }
 })
 
