@@ -1,6 +1,7 @@
 import { View, Text, Pressable, StyleSheet, FlatList } from "react-native";
 import React, { Component } from 'react'
 import { db, auth } from "../firebase/config";
+import PostHome from "../components/PostHome";
 
  class Home extends Component {
    constructor(props) {
@@ -37,7 +38,7 @@ import { db, auth } from "../firebase/config";
          data={this.state.postsRecuperados}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <Text>Hola</Text>
+            <PostHome/> 
           )}/>
       </View>
     )

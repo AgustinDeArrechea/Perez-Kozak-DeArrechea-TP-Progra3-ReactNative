@@ -25,6 +25,11 @@ class Register extends Component {
       return;
     }
 
+    if (username.length === 0) {
+      this.setState({ error: "Completar Nombre" });
+      return;
+    }
+
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((user) => {

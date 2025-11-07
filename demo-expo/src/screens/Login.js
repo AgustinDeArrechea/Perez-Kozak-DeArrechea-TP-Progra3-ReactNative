@@ -1,37 +1,46 @@
 import { Text, View, TextInput, Pressable, StyleSheet } from "react-native";
 import React, { Component } from "react";
-import { db,auth } from "../firebase/config";
+import { db, auth } from "../firebase/config";
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      error: "",
+    };
+  }
 
-    constructor(props){
-        super(props)
-        this.state = {
-            email: '',
-            password: '',
-            error: ''
-        }
+  submit(email, password) {
+    if (!email.includes("@")) {
+      this.setState({ error: "El email debe contener @" });
+
+      return;
+    }
+    if (password.length < 6) {
+      this.setState({ error: "La contraseña debe tener mas de 6 caracteres " });
+      return;
     }
 
-    submit(email,password){
-
-        if ( !email.includes('@') ) {
-          this.setState({error:'El email debe contener @'}) 
-          return
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        this.props.navigation.navigate("TabNavigator", { screen: "Home" });
+      })
+     .catch((err) => {
+        let errorMessage = "";
+        
+        if (err.code === 'auth/internal-error') {
+          errorMessage = 'Error al iniciar sesión';
         }
-        if (password.length<6) {
-          this.setState({error:'La contraseña debe tener mas de 6 caracteres '}) 
-          return
-        }
-
-
-
-              auth.signInWithEmailAndPassword(email,password)
-          .then((user) => {this.props.navigation.navigate('TabNavigator',{screen: "Home"})})
-          .catch((err)=> this.setState({error: err.message}, () => console.log("el error fue",err)) 
-           )
-    }
-
+        
+        this.setState({ error: errorMessage }, () =>
+          console.log("El error fue ", err)
+        );
+      });
+      
+  }
 
   render() {
     return (
@@ -39,37 +48,42 @@ class Login extends Component {
         <Text style={styles.title}>Iniciar Sesion</Text>
 
         <View style={styles.container}>
-            {/* Email */}
+          {/* Email */}
           <TextInput
             keyboardType="default"
-            style={styles.input} 
+            style={styles.input}
             onChangeText={(text) => this.setState({ email: text })}
             value={this.state.email}
             placeholder="Ingrese su Email"
           />
           {/* Contrasena */}
-          <TextInput 
-            keyboardType='default'
-            style={styles.input} 
-            onChangeText={(text) => this.setState({password: text })} 
+          <TextInput
+            keyboardType="default"
+            style={styles.input}
+            onChangeText={(text) => this.setState({ password: text })}
             value={this.state.password}
-            placeholder='Ingrese su contraseña'
+            placeholder="Ingrese su contraseña"
           />
+
+          {this.state.error ? (
+            <Text style={styles.errorText}>{this.state.error}</Text>
+          ) : null}
+
           {/* Iniciar Sesion */}
-          <Pressable 
+          <Pressable
             style={styles.button}
-            onPress={()=> this.submit(this.state.email, this.state.password) }>
+            onPress={() => this.submit(this.state.email, this.state.password)}
+          >
             <Text style={styles.buttonText}>Iniciar Sesión</Text>
           </Pressable>
-          
+
           {/* Ir a Register */}
-          <Pressable 
+          <Pressable
             style={styles.secondaryButton}
-            onPress={()=> this.props.navigation.navigate('Register')}>
+            onPress={() => this.props.navigation.navigate("Register")}
+          >
             <Text style={styles.secondaryButtonText}>No tengo cuenta</Text>
           </Pressable>
-
-
         </View>
       </View>
     );
@@ -79,65 +93,65 @@ class Login extends Component {
 const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
+    borderColor: "#ddd",
     borderRadius: 8,
     padding: 12,
     marginVertical: 8,
-    width: '90%',
+    width: "90%",
     fontSize: 16,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'flex-start', // Cambiado de 'center' a 'flex-start'
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    justifyContent: "flex-start", // Cambiado de 'center' a 'flex-start'
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
     marginTop: -20, // Añadido para reducir el espacio después del título
   },
   formContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#4a90e2',
+    backgroundColor: "#4a90e2",
     padding: 15,
     borderRadius: 8,
-    width: '90%',
-    alignItems: 'center',
+    width: "90%",
+    alignItems: "center",
     marginVertical: 10,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   secondaryButton: {
     marginVertical: 5,
   },
   secondaryButtonText: {
-    color: '#4a90e2',
+    color: "#4a90e2",
     fontSize: 14,
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginVertical: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 30, // Reducido de 20
-    color: '#333',
-    textAlign: 'center',
-    width: '100%',
-    marginTop: 60 // Ajustado para dar espacio desde la parte superior
+    color: "#333",
+    textAlign: "center",
+    width: "100%",
+    marginTop: 60, // Ajustado para dar espacio desde la parte superior
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-  }
-})
+    backgroundColor: "#f5f5f5",
+  },
+});
 
 export default Login;
