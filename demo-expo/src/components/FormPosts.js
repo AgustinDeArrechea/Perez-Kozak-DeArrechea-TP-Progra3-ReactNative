@@ -11,49 +11,40 @@ class FormPosts extends Component {
     };
   }
 
-  crearPosteo() {
-    const { texto } = this.state;
-
-    if (texto.trim() === "") {
-      this.setState({ error: "El post no puede estar vacío" });
-      return;
+  crearPosts(datos) {
+    if (datos !== "") {
+      db.collection("posts")
+        .add({
+          owner: auth.currentUser.email,
+          createdAt: Date.now(),
+          posts: datos, // No puede ser vacio datos porque sino crashea
+        })
+        .then((resp) => this.props.nav.navigate('TabNavigator',{screen: "Home"})) //Es un componente, no tiene las props de navegacon
+        .catch((err) => console.log(err));
     }
-
-    // Crear el post en la colección "posts"
-    db.collection("posts")
-      .add({
-        texto: texto,
-        createdAt: Date.now(),
-        owner: auth.currentUser.email,
-        likes: [], // Inicialmente vacío
-      })
-      .then(() => {
-        this.setState({ texto: "", error: "" });
-        alert("Post creado con éxito");
-        this.props.nav.navigate("Home"); // Navegar a la pantalla Home
-      })
-      .catch((err) => {
-        console.error(err);
-        this.setState({ error: "Hubo un error al crear el post" });
-      });
   }
-
+   
   render() {
+   
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Crear un nuevo post</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Escribe tu post aquí..."
-          multiline
-          numberOfLines={4}
-          onChangeText={(text) => this.setState({ texto: text })}
-          value={this.state.texto}
-        />
-        {this.state.error ? <Text style={styles.errorText}>{this.state.error}</Text> : null}
-        <Pressable style={styles.button} onPress={() => this.crearPosteo()}>
-          <Text style={styles.buttonText}>Publicar</Text>
-        </Pressable>
+
+      <View>
+        
+        <Text>Publica tu Post para que todos vean donde estas!</Text>
+        
+        <View>
+          <TextInput
+            keyboardType="default"
+            placeholder="Escrube tu Post"
+            onChangeText={(text) => this.setState({ posts: text })}
+            value={this.state.posts}
+          />
+
+          <Pressable onPress={() => this.crearPosts(this.state.posts)}>
+            <Text>Crear Post</Text>
+          </Pressable>
+        </View>{" "}
+
       </View>
     );
   }
