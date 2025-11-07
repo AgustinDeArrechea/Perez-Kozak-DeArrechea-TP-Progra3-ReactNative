@@ -24,6 +24,8 @@ class Login extends Component {
           return
         }
 
+
+
               auth.signInWithEmailAndPassword(email,password)
           .then((user) => {this.props.navigation.navigate('TabNavigator',{screen: "Home"})})
           .catch((err)=> this.setState({error: err.message}, () => console.log("el error fue",err)) 
