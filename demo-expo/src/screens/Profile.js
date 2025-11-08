@@ -73,10 +73,6 @@ class Profile extends Component {
             <Text style={styles.value}>{email}</Text>
           </View>
 
-          <Pressable style={styles.logoutButton} onPress={() => this.logout()}>
-            <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
-          </Pressable>
-
           <View style={styles.postsSection}>
             <Text>Mis Posteos</Text>
           </View>
@@ -93,6 +89,12 @@ class Profile extends Component {
         {postsRecuperados.length === 0 && (
           <Text style={styles.noPostsText}>No tienes posteos aún</Text>
         )}
+      
+
+        <Pressable style={styles.logoutButton} onPress={() => this.logout()}>
+          <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
+        </Pressable>
+      
       </View>
     )
   }
