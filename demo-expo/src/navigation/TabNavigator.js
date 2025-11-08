@@ -14,7 +14,7 @@ class TabNavigator extends Component {
     return (
       <Tab.Navigator>
         <Tab.Screen name='Home' component={Home} options={{headerShown: false, tabBarIcon: () => <Entypo name="home" size={24} color="black" /> }} />
-        <Tab.Screen name='NewPost' component={NewPost} options={{headerShown: false}}/>
+        <Tab.Screen name='NewPost' component={NewPost} options={{headerShown: false, tabBarIcon: () => <MaterialIcons name="post-add" size={24} color="black" /> }} />
         <Tab.Screen name='Profile' component={Profile} options={{headerShown: false, tabBarIcon: () => <MaterialIcons name="account-circle" size={24} color="black" />}}/>
       </Tab.Navigator>
     )
