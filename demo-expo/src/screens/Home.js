@@ -12,7 +12,7 @@ import PostHome from "../components/PostHome";
   }
 
    componentDidMount() {
-    db.collection("posts").onSnapshot((docs) => {
+    db.collection("posts").orderBy('createdAt', 'desc').onSnapshot((docs) => {
       let postsDocs = [];
       docs.forEach((doc) => {
         postsDocs.push({
@@ -30,19 +30,40 @@ import PostHome from "../components/PostHome";
 
 
   render() {
+    console.log('Post Recuperados',this.state.postsRecuperados);
+    
     return (
-      <View>
-        <Text>Home</Text>
+      <View style={styles.container}>
+        <Text style={styles.title}>Posts del día</Text>
 
         <FlatList
+         style={styles.list}
          data={this.state.postsRecuperados}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <PostHome/> 
+            <PostHome nav={this.props.navigation} data={item.data}/> 
           )}/>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  list: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#0b3b5c',
+    marginVertical: 8,
+    paddingLeft: 12,
+    textAlign: 'left'
+  }
+})
 
 export default Home

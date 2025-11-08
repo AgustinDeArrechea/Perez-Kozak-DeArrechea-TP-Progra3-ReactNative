@@ -96,6 +96,14 @@ class Register extends Component {
           >
             <Text style={styles.buttonText}>Enviar Registro</Text>
           </Pressable>
+
+          <Pressable
+                      style={styles.secondaryButton}
+                      onPress={() => this.props.navigation.navigate("Login")}
+                    >
+                      <Text style={styles.secondaryButtonText}>Iniciar Sesion</Text>
+                    </Pressable>
+
         </View>
       </View>
     );
@@ -145,7 +153,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "700",
     marginBottom: 16,
+  },secondaryButton: {
+    marginVertical: 5,
   },
+  secondaryButtonText: {
+    color: "#4a90e2",
+    fontSize: 14,
+  }
 });
 
 export default Register;
