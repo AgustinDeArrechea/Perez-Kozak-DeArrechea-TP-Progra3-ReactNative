@@ -12,6 +12,14 @@ class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    this.remember = auth.onAuthStateChanged(user => {
+      if (user) {
+        this.props.navigation.navigate('TabNavigator')
+      };
+    });
+  }
+
   submit(email, password) {
     if (!email.includes("@")) {
       this.setState({ error: "El email debe contener @" });
