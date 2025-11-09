@@ -56,17 +56,16 @@ class Login extends Component {
         <Text style={styles.title}>Iniciar Sesion</Text>
 
         <View style={styles.container}>
-          {/* Email */}
           <TextInput
-            keyboardType="default"
+            keyboardType="email-address"
             style={styles.input}
             onChangeText={(text) => this.setState({ email: text })}
             value={this.state.email}
             placeholder="Ingrese su Email"
           />
-          {/* Contrasena */}
           <TextInput
             keyboardType="default"
+            secureTextEntry={true}
             style={styles.input}
             onChangeText={(text) => this.setState({ password: text })}
             value={this.state.password}
