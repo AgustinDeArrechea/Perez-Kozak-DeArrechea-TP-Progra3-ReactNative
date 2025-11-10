@@ -12,45 +12,40 @@ class FormPosts extends Component {
   }
 
   crearPosts(datos) {
-    db.collection('users').where('owner','==',auth.currentUser.email).onSnapshot((docs) => {
-      let usersDocs = [];
-      docs.forEach((doc) => {
-        usersDocs.push({
-          id: doc.id,
-          data: doc.data(),
+    db.collection("users")
+      .where("owner", "==", auth.currentUser.email)
+      .onSnapshot((docs) => {
+        let usersDocs = [];
+        docs.forEach((doc) => {
+          usersDocs.push({
+            id: doc.id,
+            data: doc.data(),
+          });
         });
-      });
-          if (datos !== "" && usersDocs.length > 0) {
-      db.collection("posts")
-        .add({
-          owner: auth.currentUser.email,
-          username: usersDocs[0].data.username,
-          createdAt: Date.now(),
-          posts: datos, // No puede ser vacio datos porque sino crashea
-          likes: [],
+        if (datos !== "" && usersDocs.length > 0) {
+          db.collection("posts")
+            .add({
+              owner: auth.currentUser.email,
+              username: usersDocs[0].data.username,
+              createdAt: Date.now(),
+              posts: datos, // No puede ser vacio datos porque sino crashea
+              likes: [],
+            })
+            .then((resp) => {
+              this.setState({ posts: "", error: "" }); // Limpiar el campo y el error después de publicar
+              this.props.nav.navigate("HomeTab");
+            }) //Es un componente, no tiene las props de navegacon
+            .catch((err) => {
+              console.error(err);
+              this.setState({ error: "Hubo un error al crear el post" });
+            });
+        } else if (datos === "") {
+          this.setState({ error: "El post no puede estar vacío" });
         }
-      
-      )
-        .then((resp) => {
-          this.setState({ posts: "", error: "" }); // Limpiar el campo y el error después de publicar
-          this.props.nav.navigate("TabNavigator", { screen: "Home" })
-        }) //Es un componente, no tiene las props de navegacon
-        .catch((err) => {
-          console.error(err);
-          this.setState({ error: "Hubo un error al crear el post" });
-        });
-
-    } 
-    
-    else if (datos === "") {
-        this.setState({ error: "El post no puede estar vacío" });
-    }
-
-    })
+      });
   }
 
   render() {
-    
     return (
       <View style={styles.container}>
         <View style={styles.form}>

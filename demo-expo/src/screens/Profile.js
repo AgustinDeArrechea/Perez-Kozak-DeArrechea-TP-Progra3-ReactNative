@@ -82,7 +82,7 @@ class Profile extends Component {
           data={postsRecuperados}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <PostHome nav={this.props.navigation} data={item.data} />
+            <PostHome nav={this.props.navigation} data={item.data} postId={item.id} />
           )}
         />
 
