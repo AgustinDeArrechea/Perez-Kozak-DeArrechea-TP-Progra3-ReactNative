@@ -7,7 +7,7 @@ export default class Comentarios extends Component {
     super(props);
     this.state = {
       post: "",
-      owner: "",
+      nombreUsuario: "",
       comentarios: [],
       comentario: "",
       error: "",
@@ -15,66 +15,53 @@ export default class Comentarios extends Component {
   }
 
   componentDidMount(){
-    const postId = this.props.route.params.postId || this.props.route.params.id;
+    const postId = this.props.route.params.postId
     this.unsubPost = db
       .collection('posts')
       .doc(postId)
       .onSnapshot((doc) => {
-        const data = doc.data() || {};
+        const data = doc.data();
         this.setState({
           post: data.posts,
-          owner: data.username || data.owner,
-          comentarios: Array.isArray(data.comentarios) ? data.comentarios : [],
+          nombreUsuario: data.username,
+          comentarios: data.comentarios,
         });
       });
   }
   crearComentario() {
     if (this.state.comentario !== "") {
-      const postId = this.props.route.params.postId || this.props.route.params.id; // 👈 igual que arriba
+      const postId = this.props.route.params.postId
       db.collection("posts")
         .doc(postId)
         .update({
           comentarios: firebase.firestore.FieldValue.arrayUnion({
-            user: auth.currentUser?.email || 'anon',
+            user: auth.currentUser.email,
             descripcion: this.state.comentario,
             createdAt: Date.now(),
           }),
         })
-        .then(() => this.setState({ comentario: "" }))
+        .then(() => this.setState({ comentario: "", error: '' }))
         .catch((err) => console.log(err));
     }
-  }
-  
 
-    
-  crearComentario() {
-    if (this.state.comentario !== "") {
-        const postId = this.props.route.params.postId || this.props.route.params.id;
-        db.collection("posts")
-          .doc(postId)
-          .update({
-            comentarios: firebase.firestore.FieldValue.arrayUnion({
-                user: auth.currentUser.email,
-              descripcion: this.state.comentario,
-                createdAt: Date.now(),
-            }),
-          })
-          .then((resp) => this.setState({ comentario: ""}))
-            .catch((err) => console.log(err));
-        }
+    else {
+      this.setState({ error: "El comentario no puede estar vacío" });
+
     }
+  }
+      
 
         render() {
             return (
                 <View style={styles1.container}>
                     <Text style={styles1.title}>Post</Text>
                     <View style={styles1.post}>
-                        <Text style={styles1.postText}>{this.state.owner}</Text>
+                        <Text style={styles1.postText}>{this.state.nombreUsuario}</Text>
                         <Text style={styles1.postText}>{this.state.post}</Text>
                     </View>
         
                     <Text style={styles1.title}>Comentarios</Text>
-                    {this.state.comentarios.length != 0 ?
+                    {this.state.comentarios!= undefined ?
                         <FlatList style={styles1.flatList} data={this.state.comentarios} keyExtractor={(item, idx) => idx.toString()}
 
                             renderItem={({ item }) =>
@@ -91,7 +78,8 @@ export default class Comentarios extends Component {
                     <View style={styles1.formContainer}>
                         <TextInput
                             style={styles1.input} 
-                            placeholder="Deja tu comentario acá."
+                            placeholder=
+                            {this.state.error? "No puede estar vacio":"Deja tu comentario aca"}
                             onChangeText={(text) => this.setState({ comentario: text })}
                             keyboardType="default"
                             value={this.state.comentario}
