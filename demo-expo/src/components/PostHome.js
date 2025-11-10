@@ -29,9 +29,12 @@ class PostHome extends Component {
               <Text style={styles.likesText}>likes</Text>
             </View>
 
-            <Pressable  style={({pressed})=>[styles.button, pressed && styles.buttonPressed]}>
-              <Text style={styles.buttonText}>Comentar</Text>
-            </Pressable>
+			<Pressable
+				style={({pressed})=>[styles.button, pressed && styles.buttonPressed]}
+				onPress={() => this.props.nav.navigate('Comments', { postId: this.props.postId })}
+				>
+				<Text style={styles.buttonText}>Comentar</Text>
+			</Pressable>
           </View>
         </View>
       </View>

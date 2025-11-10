@@ -37,12 +37,17 @@ import PostHome from "../components/PostHome";
         <Text style={styles.title}>Posts del día</Text>
 
         <FlatList
-         style={styles.list}
-         data={this.state.postsRecuperados}
+          style={styles.list}
+          data={this.state.postsRecuperados}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <PostHome nav={this.props.navigation} data={item.data}/> 
-          )}/>
+            <PostHome
+              nav={this.props.navigation}
+              postId={item.id}
+              data={item.data}
+            />
+          )}
+        />
       </View>
     )
   }
