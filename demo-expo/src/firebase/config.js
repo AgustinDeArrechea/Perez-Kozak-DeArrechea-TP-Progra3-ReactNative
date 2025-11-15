@@ -1,8 +1,8 @@
-import app from "firebase/app";
-import firebase from 'firebase'
+import app from "firebase/app"; // importa el módulo de Firebase como app
+import firebase from 'firebase' // importa firebase
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCpIlQvgRlaY0nCEUBd6IjakVO6j693MjY",
+const firebaseConfig = { // todos estos son datros que me da firebase cuando creo el proyecto
+  apiKey: "AIzaSyCpIlQvgRlaY0nCEUBd6IjakVO6j693MjY",  
   authDomain: "reactnative-grupo9.firebaseapp.com",
   projectId: "reactnative-grupo9",
   storageBucket: "reactnative-grupo9.firebasestorage.app",
@@ -10,10 +10,10 @@ const firebaseConfig = {
   appId: "1:999496409463:web:627afafb42d2dc35f3c172"
 };
 
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig); // inicializa la app de firebase con la configuración
 
-export const auth = firebase.auth();
-export const db = app.firestore();
+export const auth = firebase.auth(); // crea y exporta la instancia de autenticación
+export const db = app.firestore(); // crea y exporta la instancia de la base de datos Firestore
 
-export { firebase }
-export default firebase
+export { firebase } // exporta firebase para usar sus servicios en otras partes de la app
+export default firebase 
