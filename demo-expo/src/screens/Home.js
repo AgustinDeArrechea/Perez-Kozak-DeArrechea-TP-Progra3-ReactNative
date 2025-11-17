@@ -6,7 +6,7 @@ import PostHome from "../components/PostHome"; // Importo el componente PostHome
  class Home extends Component { // Defino la clase Home que extiende de Component 
    constructor(props) { // constructor que recibe props del componente padre
     super(props); // Llamo al constructor de la clase componente padre
-    this.state = { // Defino el estado inicial del componente
+    this.state = { // Defino el estado inicial del componente 
       postsRecuperados: [], // Array vacío para almacenar los posts recuperados de la base de datos
     };
   }

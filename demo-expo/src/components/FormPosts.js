@@ -22,7 +22,8 @@ class FormPosts extends Component {
             data: doc.data(),
           });
         });
-        if (datos !== "" && usersDocs.length > 0) {
+        if (datos !== "" && usersDocs.length > 0) 
+          {
           db.collection("posts")
             .add({
               owner: auth.currentUser.email,

@@ -15,8 +15,8 @@ export default class Comentarios extends Component {
   }
 
   componentDidMount(){
-    const postId = this.props.route.params.postId
-    this.unsubPost = db
+    const postId = this.props.route.params.postId //Para mandar informacion entre screens es con route params
+    this. Post = db
       .collection('posts')
       .doc(postId)
       .onSnapshot((doc) => {
